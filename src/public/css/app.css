@@ -1,0 +1,133 @@
+.row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.movie-selector {
+display: block;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  padding: 0.5rem;
+  color: unset;
+  text-decoration: none;
+}
+
+.movie-selector p {
+  color: unset;
+}
+
+
+
+.dvd-list {
+  display: flex;
+  flex-direction: row;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.dvd-list .dvd {
+    position: relative;
+    text-align: center;
+    flex-basis: calc(20% - 2rem);
+}
+
+.dvd-list .dvd > img {
+  position: relative;
+  top: 0px;
+  left: 0px;
+  bottom: 0px;
+  right: 0px;
+  filter: brightness(50%);
+}
+
+
+.dvd-list .dvd .front {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  bottom: 0px;
+  right: 0px;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+
+}
+
+.mb-2{
+  margin-bottom: 2rem;
+}
+
+.blueray-icon,
+.dvd-icon {
+    position: absolute;
+    bottom: 0.5rem;
+    width: 100%;
+    text-align: center;
+}
+
+.dvd-icon svg,
+.blueray-icon svg
+{
+    height: 2rem;
+    width: 2rem;
+}
+
+.blueray-icon svg {
+    stroke: #216bc9;
+    fill: #216bc9;
+}
+
+
+
+@media(max-width: 1024px){
+    .dvd-list .dvd {
+        flex-basis: calc(25% - 0.3rem);
+    }
+}
+
+@media(max-width: 700px){
+    .dvd-list .dvd {
+        flex-basis: calc(50% - 0.25rem);
+    }
+}
+
+
+.dvd-list .dvd strong {
+    padding: 0.2rem;
+}
+
+.dvd * {
+  color: #fff;
+  text-decoration: none;
+}
+
+
+
+
+
+.dvd-list .dvd > img {
+  width: 100%;
+  height: auto;
+  display: block;          /* kills the weird inline gap */
+  filter: brightness(50%);
+}
+
+.dvd-list .dvd .front {
+  position: absolute;
+  inset: 0;                /* same as top/left/bottom/right:0 */
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.w-100 {
+  width: 100%;
+}
+
+a.red {
+  background-color: #c92121;
+  border-color: #c92121;
+}

@@ -1,0 +1,74 @@
+@extends('layouts.base')
+
+@section('title', 'Library')
+
+@section('content')
+    <h2>Library</h2>
+
+    <article>
+        <form action="" method="GET">
+            <input type="search" placeholder="Search" name="s" value="{{ $search }}"/>
+            <input type="submit" value="Search"/>
+    </form>
+    </article>
+
+
+    <article>
+        <div class="dvd-list">
+            @foreach($dvds as $dvd)
+                @include('components.dvd-view', ['dvd' => $dvd])
+            @endforeach
+        </div>
+    </article>
+
+
+    <script>
+        (() => {
+            const searchInput = document.getElementById('search');
+            const searchResult = document.getElementById('searchResult');
+            let searchTimeout = null;
+
+
+            searchResult.addEventListener('click', (event) => {
+                const td = event.target.closest('td');
+
+                // If click wasn't inside a TD, ignore it
+                if (!td || !searchResult.contains(td)) return;
+
+                console.log('Adding Movie:', td.getAttribute("data-id"));
+            });
+
+            searchInput.addEventListener('keyup', () => {
+                clearTimeout(searchTimeout);
+                searchTimeout = setTimeout(() => {
+                    const apiKey = "{{ config('app.tmdb_api_key') }}";
+                    const languages = "{{ config('app.tmdb_languages') }}".split(",");
+                
+                    searchResult.innerHTML = "";
+
+                    for(let lang of languages) {
+
+                        fetch(`https://api.themoviedb.org/3/search/multi?api_key=${apiKey}&query=${searchInput.value}&language=${lang}&region=US&sort_by=popularity.desc`).then(async (response) => {
+                            const data = await response.json();
+                            console.log(data);
+                            for(let item of data.results.slice(0, 5)) {
+                                let newHtml = `
+                                <a href="/check/${item.media_type}/${item.id}" class="movie-selector" style="background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('https://image.tmdb.org/t/p/w1280${item.backdrop_path}');">                                    
+                                    <img src="https://image.tmdb.org/t/p/w154${item.poster_path}"/>
+                                    <div>
+                                        <strong>${item.name || item.title} <small>(${item.first_air_date || item.release_date})</small></strong>
+                                        <p>${item.overview}</p>
+                                    </div>
+                                </a>`;
+
+                                searchResult.innerHTML += newHtml;
+                            }
+                        });
+                        
+                    }
+                }, 500);
+            });
+        })();
+    </script>
+
+@endsection
