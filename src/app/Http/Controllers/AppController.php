@@ -14,7 +14,7 @@ class AppController extends Controller
             'dvds' => $dvds,
             'discCount' => Dvd::count(),
             'dvdCount' => Dvd::where('disc_type','=','dvd')->count(),
-            'blurayCount' => Dvd::where('disc_type','=','bluray'),
+            'bluerayCount' => Dvd::where('disc_type','=','bluray')->count(),
         ]);
     }
 
