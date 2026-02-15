@@ -31,8 +31,8 @@ class AppController extends Controller
         $data = $request->validate([
             'tmdbid' => ['required', 'string'],
             'poster_path' => ['string'],
-            'backdrop_path' => ['string'],
-            'overview' => ['string'],
+            'backdrop_path' => ['nullable','string'],
+            'overview' => ['nullable','string'],
             'disc_type' => ['required', 'string'],
             'media_type' => ['required', 'string'],
             'season' => ['nullable', 'integer'],
@@ -44,7 +44,11 @@ class AppController extends Controller
             'series_max' => ['nullable', 'integer'],
         ]);
 
+        $data['backdrop_path'] = $data['backdrop_path'] ? $data['backdrop_path'] : '';
+        $data['overview'] = $data['overview'] ? $data['overview'] : '';
+
         Dvd::create($data); 
+
 
         return redirect("/");
     }
