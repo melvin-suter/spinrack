@@ -12,7 +12,7 @@ chown -R www-data:www-data storage bootstrap/cache database || true
 chmod -R 775 storage bootstrap/cache database || true
 
 # Run migrations
-php artisan migrate
+php artisan migrate --force
 php artisan app:init-app
 
 # Continue with Apache
