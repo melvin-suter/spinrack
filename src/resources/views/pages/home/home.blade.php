@@ -14,6 +14,14 @@
         </article>
     </article>
 
+    <article>
+        <h3>In your library</h3>
+
+        Total: {{ $discCount }}
+        DvDs: {{ $dvdCount }}
+        Blueray: {{ $bluerayCount }}
+    </article>
+
 
     <article>
         <h3>Newest DvDs</h3>

@@ -12,6 +12,9 @@ class AppController extends Controller
         $dvds = Dvd::latest()->take(10)->get();
         return view('pages.home.home', [
             'dvds' => $dvds,
+            'discCount' => Dvd::count(),
+            'dvdCount' => Dvd::where('disc_type','=','dvd'),
+            'blurayCount' => Dvd::where('disc_type','=','bluray'),
         ]);
     }
 
