@@ -17,6 +17,10 @@ Route::middleware(['auth'])->group(function(){
 
     Route::get('/settings', [AppController::class, 'settings']);
     Route::post('/settings', [AppController::class, 'settingsSave']);
+
+
+    Route::get('/collection/{id}', [AppController::class, 'collection']);
+
 });
 
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');

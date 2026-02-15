@@ -16,5 +16,10 @@ class Dvd extends Model
         'amount',
         'season',
         'disc_type',
+        'media_type',
+        'series_min',
+        'series_max',
+        'collection_id',
+        'collection_title',
     ];
 }

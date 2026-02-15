@@ -31,9 +31,13 @@ class AppController extends Controller
             'backdrop_path' => ['string'],
             'overview' => ['string'],
             'disc_type' => ['required', 'string'],
+            'media_type' => ['required', 'string'],
             'season' => ['nullable', 'integer'],
             'title' => ['required', 'string'],
             'release' => ['required', 'string'],
+            'collection_id' => ['nullable', 'string'],
+            'series_min' => ['nullable', 'integer'],
+            'series_max' => ['nullable', 'integer'],
         ]);
 
         Dvd::create($data); 
@@ -42,8 +46,16 @@ class AppController extends Controller
     }
 
     public function edit($id) {
+        $dvd =  Dvd::find($id);
+        $seasons = null;
+
+        if($dvd->media_type == "tv") {
+            $seasons = Dvd::where('tmdbid','=', $dvd->tmdbid)->pluck('season')->toArray();
+        }
+
         return view('pages.dvd.edit', [
-            'dvd' => Dvd::find($id),
+            "seasons" => $seasons,
+            'dvd' => $dvd,
         ]);
     }
 
@@ -116,5 +128,12 @@ class AppController extends Controller
         $user->save();
 
         return back()->with('success', 'Profile updated.');
+    }
+
+    public function collection($id) {
+        return view('pages.dvd.collection', [
+            'collection_id' => $id,
+            'dvds' => Dvd::where('collection_id','=',$id)->get(),
+        ]);
     }
 }

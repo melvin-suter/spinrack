@@ -60,6 +60,7 @@ display: block;
   margin-bottom: 2rem;
 }
 
+.missing-icon,
 .blueray-icon,
 .dvd-icon {
     position: absolute;
@@ -68,6 +69,7 @@ display: block;
     text-align: center;
 }
 
+.missing-icon svg,
 .dvd-icon svg,
 .blueray-icon svg
 {
@@ -78,6 +80,11 @@ display: block;
 .blueray-icon svg {
     stroke: #216bc9;
     fill: #216bc9;
+}
+
+.missing-icon svg {
+    stroke: #c92121;
+    fill: #c92121;
 }
 
 
@@ -115,6 +122,11 @@ display: block;
   filter: brightness(50%);
 }
 
+
+.dvd-list .dvd > img.missing {
+  filter: brightness(20%);
+}
+
 .dvd-list .dvd .front {
   position: absolute;
   inset: 0;                /* same as top/left/bottom/right:0 */
@@ -130,4 +142,27 @@ display: block;
 a.red {
   background-color: #c92121;
   border-color: #c92121;
+}
+
+
+
+.seasons {
+    display: flex;
+    flex-direction: row;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.seasons .season {
+    background-color: #3e6e1b;
+    width: 4rem;
+    height: 4rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+}
+
+.seasons .season.missing {
+    background-color: #c92121;
 }

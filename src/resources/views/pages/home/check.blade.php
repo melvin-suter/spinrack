@@ -25,6 +25,11 @@
             <input type="hidden" id="backdrop_path" name="backdrop_path"/>
             <input type="hidden" id="overview" name="overview"/>
             <input type="hidden" id="disc_type" name="disc_type" value="dvd"/>
+            <input type="hidden" id="media_type" name="media_type" value="{{$mediaType}}"/>
+            <input type="hidden" id="series_min" name="series_min"/>
+            <input type="hidden" id="series_max" name="series_max"/>
+            <input type="hidden" id="collection_id" name="collection_id"/>
+            <input type="hidden" id="collection_title" name="collection_title"/>
 
             @if($mediaType == "tv")
                 <label><strong>Season</strong></label>
@@ -73,6 +78,17 @@
         document.getElementById("backdrop_path").value = data.backdrop_path;
         document.getElementById("overview").value = data.overview;
         document.getElementById("release").value = data.first_air_date || data.release_date;
+
+        if(data.belongs_to_collection) {
+            document.getElementById("collection_id").value = data.belongs_to_collection.id;
+            document.getElementById("collection_title").value = data.belongs_to_collection.name;
+        }
+        if(data.seasons) {
+            const sortedSeason = data.seasons.sort((a, b) => a.season_number - b.season_number);
+            document.getElementById("series_min").value = sortedSeason[0].season_number;
+            document.getElementById("series_max").value = sortedSeason[sortedSeason.length - 1].season_number;
+        }
+
     });
 })();
         </script>

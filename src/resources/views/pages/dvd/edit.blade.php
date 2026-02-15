@@ -5,21 +5,50 @@
 @section('content')
     <h1>{{ $dvd->title }}</h1>
 
-    <form action="" method="POST">
-        @csrf
-        <label>Season</label>
-        <input type="number" id="season" name="season" value="{{$dvd->season}}"/>
-        <input type="hidden" id="disc_type" name="disc_type" value="{{ $dvd->disc_type }}"/>
+    <article>
+        <h3>Edit</h3>
+        <form action="" method="POST">
+            @csrf
 
-        <div role="group">
-            <button type="button" id="disc_type_dvd">DvD</button>
-            <button type="button" id="disc_type_blueray" class="secondary">Blueray</button>
-        </div>
+            @if($dvd->media_type == "tv")
+                <label>Season</label>
+                <input type="number" id="season" name="season" value="{{$dvd->season}}"/>
+            @endif
 
-        <input type="submit" class="w-100" value="Save"/>
-    </form>
+            <input type="hidden" id="disc_type" name="disc_type" value="{{ $dvd->disc_type }}"/>
 
-    <a id="delete" class="red w-100" role="button">Delete</a>
+            <div role="group">
+                <button type="button" id="disc_type_dvd">DvD</button>
+                <button type="button" id="disc_type_blueray" class="secondary">Blueray</button>
+            </div>
+
+            <input type="submit" class="w-100" value="Save"/>
+        </form>
+    </article>
+
+    @if($seasons)
+        <article>
+            <h3>Seasons</h3>
+            <div class="seasons">
+                @for($i = $dvd->series_min ; $i <= $dvd->series_max ; $i++)
+                    <div class="season {{in_array($i, $seasons) ? "" : "missing" }}">{{$i}}</div>
+                @endfor
+            </div>
+        </article>
+    @endif
+
+
+    @if($dvd->collection_id)
+        <article>
+            <h3>Movie Collection</h3>
+            <a href="/collection/{{$dvd->collection_id }}">{{$dvd->collection_title}}</a>
+        </article>
+    @endif
+
+    <article>
+        <img src="https://image.tmdb.org/t/p/w1280{{ $dvd->poster_path }}" />
+        <a id="delete" class="red w-100" role="button">Delete</a>
+    </article>
 
     <dialog id="delete-modal">
         <article>
