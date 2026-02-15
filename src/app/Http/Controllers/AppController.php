@@ -13,7 +13,7 @@ class AppController extends Controller
         return view('pages.home.home', [
             'dvds' => $dvds,
             'discCount' => Dvd::count(),
-            'dvdCount' => Dvd::where('disc_type','=','dvd'),
+            'dvdCount' => Dvd::where('disc_type','=','dvd')->count(),
             'blurayCount' => Dvd::where('disc_type','=','bluray'),
         ]);
     }
