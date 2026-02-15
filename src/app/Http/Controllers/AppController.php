@@ -36,6 +36,7 @@ class AppController extends Controller
             'title' => ['required', 'string'],
             'release' => ['required', 'string'],
             'collection_id' => ['nullable', 'string'],
+            'collection_title' => ['nullable', 'string'],
             'series_min' => ['nullable', 'integer'],
             'series_max' => ['nullable', 'integer'],
         ]);
