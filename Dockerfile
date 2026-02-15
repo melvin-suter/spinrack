@@ -9,11 +9,12 @@ RUN a2enmod rewrite
 RUN apt-get update && apt-get install -y --no-install-recommends \
     git unzip \
     libicu-dev libzip-dev \
-    sqlite3 \
-    libsqlite3-dev \
+    sqlite3 libsqlite3-dev \
+    libonig-dev \
     pkg-config \
   && docker-php-ext-install pdo pdo_sqlite intl mbstring zip \
   && rm -rf /var/lib/apt/lists/*
+
 
 
 # Set Apache DocumentRoot to Laravel /public
