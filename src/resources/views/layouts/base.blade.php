@@ -12,8 +12,8 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     {{-- Assets --}}
-    <link rel="stylesheet" href="{{ asset('css/pico.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+    <link rel="stylesheet" href="/css/pico.min.css">
+    <link rel="stylesheet" href="/css/app.css">
 </head>
 <body>
     <main class="container">
