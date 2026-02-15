@@ -15,6 +15,8 @@ chmod -R 775 storage bootstrap/cache database || true
 php artisan migrate --force
 php artisan app:init-app
 
+chown -R www-data:www-data /data
+
 # Continue with Apache
 exec "$@"
 

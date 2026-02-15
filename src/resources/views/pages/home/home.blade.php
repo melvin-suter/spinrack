@@ -55,7 +55,7 @@
                         fetch(`https://api.themoviedb.org/3/search/multi?api_key=${apiKey}&query=${searchInput.value}&language=${lang}&region=US&sort_by=popularity.desc`).then(async (response) => {
                             const data = await response.json();
                             console.log(data);
-                            for(let item of data.results.slice(0, 5)) {
+                            for(let item of data.results.slice(0, 10)) {
                                 let newHtml = `
                                 <a href="/check/${item.media_type}/${item.id}" class="movie-selector" style="background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('https://image.tmdb.org/t/p/w1280${item.backdrop_path}');">                                    
                                     <img src="https://image.tmdb.org/t/p/w154${item.poster_path}"/>
