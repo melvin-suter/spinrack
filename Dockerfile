@@ -7,18 +7,14 @@ RUN a2enmod rewrite
 
 # System deps + PHP extensions for Laravel + SQLite
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    git \
-    unzip \
-    libicu-dev \
-    libzip-dev \
+    git unzip \
+    libicu-dev libzip-dev \
     sqlite3 \
-  && docker-php-ext-install \
-    pdo \
-    pdo_sqlite \
-    intl \
-    mbstring \
-    zip \
+    libsqlite3-dev \
+    pkg-config \
+  && docker-php-ext-install pdo pdo_sqlite intl mbstring zip \
   && rm -rf /var/lib/apt/lists/*
+
 
 # Set Apache DocumentRoot to Laravel /public
 ENV APACHE_DOCUMENT_ROOT=/var/www/html/public
