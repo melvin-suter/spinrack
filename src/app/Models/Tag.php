@@ -9,4 +9,9 @@ class Tag extends Model
     protected $fillable = [
         'name',
     ];
+
+
+    public function dvds() {
+        return $this->belongsToMany(Dvd::class);
+    }
 }

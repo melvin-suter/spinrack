@@ -22,4 +22,8 @@ class Dvd extends Model
         'collection_id',
         'collection_title',
     ];
+
+    public function tags() {
+        return $this->belongsToMany(Tag::class);
+    }
 }

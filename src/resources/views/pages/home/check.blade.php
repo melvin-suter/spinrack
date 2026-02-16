@@ -65,7 +65,20 @@
 
             <label><strong>Title & Year</strong></label>
             <input type="text" id="title" name="title" readonly disable/>
-            <input type="text" id="release" name="release" readonly disable/>
+            <input type="text" id="release" name="release"/>
+
+
+                        
+            <div class="chips" id="chips"></div>
+            <input id="tag-input" list="tag-options" placeholder="Add tag…" autocomplete="off">
+            <datalist id="tag-options">
+                @foreach($tags as $tag)
+                    <option value="{{$tag->name}}">
+                @endforeach
+            </datalist>
+            <input type="hidden" name="tags" id="tags-hidden">
+
+
 
             <div role="group">
                 <button type="button" id="disc_type_dvd">DvD</button>
@@ -77,6 +90,11 @@
     <article>
         <img src="" id="poster"/>
     </article>
+
+
+
+  <script src="/tags.js"></script>
+
     
 
         <script>

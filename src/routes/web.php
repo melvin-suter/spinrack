@@ -18,6 +18,7 @@ Route::middleware(['auth'])->group(function(){
     Route::get('/settings', [AppController::class, 'settings']);
     Route::post('/settings', [AppController::class, 'settingsSave']);
 
+    Route::get('/tag/{id}', [AppController::class, 'showTag']);
 
     Route::get('/collection/{id}', [AppController::class, 'collection']);
 

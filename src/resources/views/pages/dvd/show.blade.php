@@ -7,6 +7,12 @@
 
     <article>
         <p>{{$dvd->overview}}</p>
+
+        <div class="chips" id="chips">
+            @foreach($dvd->tags()->get() as $tag)
+                <div class="chip">{{$tag->name}}</div>
+            @endforeach
+        </div>
     </article>
 
     @if($seasons)

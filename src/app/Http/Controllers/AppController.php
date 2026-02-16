@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Dvd;
+use App\Models\Tag;
 use Illuminate\Support\Facades\Hash;
 
 class AppController extends Controller
@@ -29,6 +30,7 @@ class AppController extends Controller
             'results' => $results,
             'mediaType' => $mediaType,
             'season' => $request->query('season', "1"),
+            "tags" => Tag::get(),
         ]);
     }
 
@@ -47,13 +49,17 @@ class AppController extends Controller
             'collection_title' => ['nullable', 'string'],
             'series_min' => ['nullable', 'integer'],
             'series_max' => ['nullable', 'integer'],
+            'tags' => ['nullable', 'string'],
         ]);
 
         $data['backdrop_path'] = $data['backdrop_path'] ? $data['backdrop_path'] : '';
         $data['overview'] = $data['overview'] ? $data['overview'] : '';
 
-        Dvd::create($data); 
+        $dvd = Dvd::create($data); 
 
+        foreach(explode(",", $data['tags']) as $tag) {
+            $dvd->tags()->attach(Tag::firstOrCreate(['name' => $tag]));
+        }
 
         return redirect("/");
     }
@@ -65,10 +71,12 @@ class AppController extends Controller
         if($dvd->media_type == "tv") {
             $seasons = Dvd::where('tmdbid','=', $dvd->tmdbid)->get();
         }
+        
 
         return view('pages.dvd.edit', [
             "seasons" => $seasons,
             'dvd' => $dvd,
+            "tags" => Tag::get(),
         ]);
     }
 
@@ -81,9 +89,17 @@ class AppController extends Controller
         $data = $request->validate([
             'disc_type' => ['required', 'string'],
             'season' => ['nullable', 'integer'],
+            'tags' => ['nullable', 'string'],
         ]);
 
-        Dvd::find($id)->update($data); 
+        $dvd = Dvd::find($id);
+        $dvd->update($data); 
+
+        $dvd->tags()->detach();
+        foreach(explode(",", $data['tags']) as $tag) {
+            $dvd->tags()->attach(Tag::firstOrCreate(['name' => $tag]));
+        }
+
 
         return redirect("/");
     }
@@ -202,5 +218,13 @@ class AppController extends Controller
                 return redirect("/show/" . $dvd->id);
                 break;
         }
+    }
+
+    public function showTag($id) {
+        $tag = Tag::find($id);
+        return view('pages.dvd.tag', [
+            'tag' => $tag,
+            'dvds' => $tag->dvds()->get(),
+        ]);
     }
 }

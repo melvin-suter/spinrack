@@ -16,6 +16,16 @@
             @endif
 
             <input type="hidden" id="disc_type" name="disc_type" value="{{ $dvd->disc_type }}"/>
+            
+            <div class="chips" id="chips"></div>
+            <input id="tag-input" list="tag-options" placeholder="Add tag…" autocomplete="off">
+            <datalist id="tag-options">
+                @foreach($tags as $tag)
+                    <option value="{{$tag->name}}">
+                @endforeach
+            </datalist>
+            <input type="hidden" name="tags" id="tags-hidden" value="{{ implode(',', $dvd->tags()->pluck('name')->toArray()) }}">
+
 
             <div role="group">
                 <button type="button" id="disc_type_dvd">DvD</button>
@@ -68,6 +78,7 @@
         </article>
     </dialog>
 
+  <script src="/tags.js"></script>
 
     <script>
 (() => {

@@ -189,3 +189,35 @@ a.red {
   flex-wrap: wrap;
   gap: 0.5rem;
 }
+
+
+
+
+
+
+
+
+.chips{
+    display:flex;
+    flex-wrap:wrap;
+    gap:.5rem;
+    margin:.75rem 0;
+  }
+
+  .chip{
+    display:inline-flex;
+    align-items:center;
+    padding:.35rem .8rem;
+    border-radius:999px;
+    font-size:.85rem;
+    font-weight:600;
+    background:#e0f2ff;
+    color:#0369a1;
+    border:1px solid #bae6fd;
+    cursor:pointer;
+    transition:background .15s ease;
+  }
+
+  .chip:hover{
+    background:#bae6fd;
+  }
