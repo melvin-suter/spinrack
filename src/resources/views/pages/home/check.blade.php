@@ -15,6 +15,7 @@
         </article>
     @endif
 
+
     <article>
 
         {{-- Validation Errors --}}
@@ -45,7 +46,19 @@
 
             @if($mediaType == "tv")
                 <label><strong>Season</strong></label>
-                <input type="number" id="season" name="season" value="1"/>
+                <input type="number" id="season" name="season" value="{{$season}}"/>
+
+
+
+            <div class="seasons">
+                @for($i = $results->first()->series_min ; $i <= $results->first()->series_max ; $i++)
+                    @if($results->firstWhere('season', $i) )
+                        <a href="/dvd/{{ $results->firstWhere('season', $i)->id }}" class="season">{{$i}}</a>
+                    @else
+                        <a href="/check/{{$results->first()->media_type}}/{{ $results->first()->tmdbid }}?season={{$i}}" class="season missing">{{$i}}</a>
+                    @endif
+                @endfor
+            </div>
             @endif
 
             <label><strong>Title & Year</strong></label>
@@ -56,9 +69,11 @@
                 <button type="button" id="disc_type_dvd">DvD</button>
                 <button type="button" id="disc_type_blueray" class="secondary">Blueray</button>
             </div>
-
-            <img src="" id="poster"/>
         </form>
+    </article>
+
+    <article>
+        <img src="" id="poster"/>
     </article>
     
 

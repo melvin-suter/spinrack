@@ -21,6 +21,10 @@ Route::middleware(['auth'])->group(function(){
 
     Route::get('/collection/{id}', [AppController::class, 'collection']);
 
+
+    Route::get('/show/{id}', [AppController::class, 'show']);
+    Route::get('/rnd/{id}', [AppController::class, 'rnd']);
+
 });
 
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');

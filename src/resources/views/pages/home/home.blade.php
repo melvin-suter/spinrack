@@ -17,9 +17,28 @@
     <article>
         <h3>In your library</h3>
 
-        Total: {{ $discCount }}
-        DvDs: {{ $dvdCount }}
-        Blueray: {{ $bluerayCount }}
+        <div class="row center-wrap">
+            <a href="/rnd/total" class="number-box">
+                <strong>{{ $discCount }}</strong>
+                <small>Total</small>
+            </a>
+            <a href="/rnd/movie" class="number-box">
+                <strong>{{ $movieCount }}</strong>
+                <small>Movies</small>
+            </a>
+            <a href="/rnd/tv" class="number-box">
+                <strong>{{ $tvCount }}</strong>
+                <small>TV Series</small>
+            </a>
+            <a href="/rnd/dvd" class="number-box">
+                <strong>{{ $dvdCount }}</strong>
+                <small>DvDs</small>
+            </a>
+            <a href="/rnd/blueray" class="number-box">
+                <strong>{{ $bluerayCount }}</strong>
+                <small>Blueray</small>
+            </a>
+        </div>
     </article>
 
 

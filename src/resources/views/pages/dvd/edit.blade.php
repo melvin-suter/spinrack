@@ -31,7 +31,11 @@
             <h3>Seasons</h3>
             <div class="seasons">
                 @for($i = $dvd->series_min ; $i <= $dvd->series_max ; $i++)
-                    <div class="season {{in_array($i, $seasons) ? "" : "missing" }}">{{$i}}</div>
+                    @if($seasons->firstWhere('season', $i) )
+                        <a href="/dvd/{{ $seasons->firstWhere('season', $i)->id }}" class="season">{{$i}}</a>
+                    @else
+                        <a href="/check/{{$dvd->media_type}}/{{ $dvd->tmdbid }}?season={{$i}}" class="season missing">{{$i}}</a>
+                    @endif
                 @endfor
             </div>
         </article>

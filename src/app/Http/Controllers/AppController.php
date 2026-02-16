@@ -10,20 +10,25 @@ class AppController extends Controller
 {
     public function home() {
         $dvds = Dvd::latest()->take(10)->get();
+
         return view('pages.home.home', [
             'dvds' => $dvds,
+            'tvCount' => Dvd::where('media_type','=','tv')->count(),
+            'movieCount' => Dvd::where('media_type','=','movie')->count(),
             'discCount' => Dvd::count(),
             'dvdCount' => Dvd::where('disc_type','=','dvd')->count(),
             'bluerayCount' => Dvd::where('disc_type','=','blueray')->count(),
         ]);
     }
 
-    public function check($mediaType, $id) {
+    public function check(Request $request, $mediaType, $id) {
         $results = Dvd::where('tmdbid','=',$id)->get();
+
         return view('pages.home.check', [
             'id' => $id,
             'results' => $results,
             'mediaType' => $mediaType,
+            'season' => $request->query('season', "1"),
         ]);
     }
 
@@ -58,7 +63,7 @@ class AppController extends Controller
         $seasons = null;
 
         if($dvd->media_type == "tv") {
-            $seasons = Dvd::where('tmdbid','=', $dvd->tmdbid)->pluck('season')->toArray();
+            $seasons = Dvd::where('tmdbid','=', $dvd->tmdbid)->get();
         }
 
         return view('pages.dvd.edit', [
@@ -143,5 +148,59 @@ class AppController extends Controller
             'collection_id' => $id,
             'dvds' => Dvd::where('collection_id','=',$id)->get(),
         ]);
+    }
+
+    public function show($id) {
+        $dvd =  Dvd::find($id);
+        $seasons = null;
+
+        if($dvd->media_type == "tv") {
+            $seasons = Dvd::where('tmdbid','=', $dvd->tmdbid)->get();
+        }
+
+        return view('pages.dvd.show', [
+            "seasons" => $seasons,
+            'dvd' => $dvd,
+        ]);
+    }
+
+    public function rnd($type) {
+        switch($type) {
+
+            case "movie":
+                $dvd = Dvd::where('media_type','=','movie')->inRandomOrder()->first();
+                return redirect("/show/" . $dvd->id);
+                break;
+
+            case "tv":
+                $dvd = Dvd::where('media_type','=','tv')->inRandomOrder()->first();
+                $dvd = Dvd::where('tmdbid','=',$dvd->tmdbid)->orderBy('season')->first();
+                return redirect("/show/" . $dvd->id);
+                break;
+
+            case "dvd":
+                $dvd = Dvd::where('disc_type','=','dvd')->inRandomOrder()->first();
+                if($dvd->season) {
+                    $dvd = Dvd::where('tmdbid','=',$dvd->tmdbid)->where('disc_type','=','dvd')->orderBy('season')->first();
+                }
+                return redirect("/show/" . $dvd->id);
+                break;
+
+            case "blueray":
+                $dvd = Dvd::where('disc_type','=','blueray')->inRandomOrder()->first();
+                if($dvd->season) {
+                    $dvd = Dvd::where('tmdbid','=',$dvd->tmdbid)->where('disc_type','=','blueray')->orderBy('season')->first();
+                }
+                return redirect("/show/" . $dvd->id);
+                break;
+
+            default:
+                $dvd = Dvd::inRandomOrder()->first();
+                if($dvd->season) {
+                    $dvd = Dvd::where('tmdbid','=',$dvd->tmdbid)->orderBy('season')->first();
+                }
+                return redirect("/show/" . $dvd->id);
+                break;
+        }
     }
 }

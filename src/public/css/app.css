@@ -6,7 +6,7 @@
 }
 
 .movie-selector {
-display: block;
+  display: block;
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -161,8 +161,31 @@ a.red {
     justify-content: center;
     align-items: center;
     font-weight: bold;
+    color: unset;
+    text-decoration: none;
 }
 
 .seasons .season.missing {
     background-color: #c92121;
+}
+
+.number-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  background-color: var(--pico-primary-background);
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  min-width: 5rem;
+  color: unset;
+  text-decoration: none;
+}
+
+
+.row.center-wrap {
+  width: 100%;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
 }
