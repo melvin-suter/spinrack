@@ -51,13 +51,15 @@
 
 
             <div class="seasons">
-                @for($i = $results->first()->series_min ; $i <= $results->first()->series_max ; $i++)
-                    @if($results->firstWhere('season', $i) )
-                        <a href="/dvd/{{ $results->firstWhere('season', $i)->id }}" class="season">{{$i}}</a>
-                    @else
-                        <a href="/check/{{$results->first()->media_type}}/{{ $results->first()->tmdbid }}?season={{$i}}" class="season missing">{{$i}}</a>
-                    @endif
-                @endfor
+                @if($results->first())
+                    @for($i = $results->first()->series_min ; $i <= $results->first()->series_max ; $i++)
+                        @if($results->firstWhere('season', $i) )
+                            <a href="/dvd/{{ $results->firstWhere('season', $i)->id }}" class="season">{{$i}}</a>
+                        @else
+                            <a href="/check/{{$results->first()->media_type}}/{{ $results->first()->tmdbid }}?season={{$i}}" class="season missing">{{$i}}</a>
+                        @endif
+                    @endfor
+                @endif
             </div>
             @endif
 
