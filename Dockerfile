@@ -1,4 +1,4 @@
-FROM php:8.3-apache
+FROM php:8.4-apache
 
 # (Optional) default envs, but .env may override unless you handle it
 ENV DB_CONNECTION=sqlite
