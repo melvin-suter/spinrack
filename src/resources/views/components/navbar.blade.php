@@ -28,7 +28,7 @@
     {{-- Mobile offcanvas sidebar --}}
     <div id="mobile-sidebar" uk-offcanvas="overlay: true">
         <div class="uk-offcanvas-bar">
-            <button class="uk-offcanvas-close" type="button" uk-close></button>
+            <button class="uk-offcanvas-close" style="margin-bottom: 1rem;" type="button" uk-close></button>
             
             @include('components.sub-navbar')
         </div>
