@@ -61,9 +61,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
   && docker-php-ext-install pdo pdo_sqlite intl mbstring zip \
   && rm -rf /var/lib/apt/lists/*
 
-  RUN echo "* * * * * www-data php /var/www/html/artisan app:process-jobs >> /var/log/cron.log 2>&1" > /etc/cron.d/laravel \
- && chmod 0644 /etc/cron.d/laravel \
- && crontab /etc/cron.d/laravel
+RUN echo '* * * * * www-data /usr/local/bin/php /var/www/html/artisan app:process-jobs >> /var/log/cron.log 2>&1' > /etc/cron.d/laravel \
+  && chmod 0644 /etc/cron.d/laravel
 
 EXPOSE 80
 ENTRYPOINT ["/entrypoint.sh"]
