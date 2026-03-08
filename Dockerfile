@@ -58,7 +58,7 @@ RUN mkdir -p /data \
  && chmod -R 775 /data storage bootstrap/cache
 
 # Cron job
-RUN echo '* * * * * root /usr/local/bin/php /var/www/html/artisan app:process-jobs >> /var/log/cron.log 2>&1' > /etc/cron.d/laravel \
+RUN echo '* * * * * root cd /var/www/html && /usr/local/bin/php artisan app:process-jobs >> /var/log/cron.log 2>&1' > /etc/cron.d/laravel \
  && chmod 0644 /etc/cron.d/laravel \
  && touch /var/log/cron.log
 
