@@ -1,0 +1,109 @@
+@extends('layouts.base')
+
+@section('title', 'Home')
+
+@section('content')
+    <h1>Home</h1>
+
+    <article>
+        <h3>Check DvD</h3>
+        <input type="search" placeholder="Title" id="search"/>
+        <article style="margin-bottom: 0px; padding: 0px;">
+            <div id="searchResult">
+            </div>
+        </article>
+    </article>
+
+    <article>
+        <h3>In your library</h3>
+
+        <div class="row center-wrap">
+            <a href="/rnd/total" class="number-box">
+                <strong>{{ $discCount }}</strong>
+                <small>Total</small>
+            </a>
+            <a href="/rnd/movie" class="number-box">
+                <strong>{{ $movieCount }}</strong>
+                <small>Movies</small>
+            </a>
+            <a href="/rnd/tv" class="number-box">
+                <strong>{{ $tvCount }}</strong>
+                <small>TV Series</small>
+            </a>
+            <a href="/rnd/dvd" class="number-box">
+                <strong>{{ $dvdCount }}</strong>
+                <small>DvDs</small>
+            </a>
+            <a href="/rnd/blueray" class="number-box">
+                <strong>{{ $bluerayCount }}</strong>
+                <small>Blueray</small>
+            </a>
+        </div>
+    </article>
+
+
+    <script>
+        (() => {
+            const searchInput = document.getElementById('search');
+            const searchResult = document.getElementById('searchResult');
+            let searchTimeout = null;
+
+
+            searchResult.addEventListener('click', (event) => {
+                const td = event.target.closest('td');
+
+                // If click wasn't inside a TD, ignore it
+                if (!td || !searchResult.contains(td)) return;
+
+                console.log('Adding Movie:', td.getAttribute("data-id"));
+            });
+
+            searchInput.addEventListener('keyup', () => {
+                clearTimeout(searchTimeout);
+                searchTimeout = setTimeout(async () => {
+                    const apiKey = "{{ config('app.tmdb_api_key') }}";
+                    const languages = "{{ config('app.tmdb_languages') }}".split(",");
+                    var apiData = [];
+                
+                    searchResult.innerHTML = "";
+
+                    for(let lang of languages) {
+
+                        const response = await fetch(`https://api.themoviedb.org/3/search/multi?api_key=${apiKey}&query=${searchInput.value}&language=${lang}&region=US&sort_by=popularity.desc`)
+                        
+                        const data = await response.json();
+                        const results = data.results.slice(0, 10);
+                        console.log("api", apiData);
+                        console.log("res", results);
+                        apiData = [...apiData, ...results];
+                        
+                        
+                    }
+
+                    console.log("api", apiData);
+                    const seen = new Set();
+                    const unique = apiData.filter(o => {
+                        if (seen.has(o.id)) return false;
+                        seen.add(o.id);
+                        return true;
+                    });
+                    console.log("unique", unique);
+
+                    for(let item of unique) {
+                        let newHtml = `
+                        <a href="/check/${item.media_type}/${item.id}" class="movie-selector" style="background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('https://image.tmdb.org/t/p/w1280${item.backdrop_path}');">                                    
+                            <img src="https://image.tmdb.org/t/p/w154${item.poster_path}"/>
+                            <div>
+                                <strong>${item.name || item.title} <small>(${item.first_air_date || item.release_date})</small></strong>
+                                <p>${item.overview}</p>
+                            </div>
+                        </a>`;
+
+                        searchResult.innerHTML += newHtml;
+                    }
+                }, 500);
+            });
+        })();
+    </script>
+
+@endsection

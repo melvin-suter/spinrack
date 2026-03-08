@@ -1,0 +1,17 @@
+.table {
+    max-width: 100%;
+
+    tr {
+        border-bottom: 1px solid $global-border;
+
+        td, th {
+            white-space: nowrap;
+
+            &.wrap {
+                white-space: wrap;
+                word-break: break-word;
+
+            }
+        }
+    }
+}

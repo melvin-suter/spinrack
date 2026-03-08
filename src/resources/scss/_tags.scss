@@ -1,0 +1,12 @@
+.tags {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.tag {
+    background: $global-primary;
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.75rem;
+}

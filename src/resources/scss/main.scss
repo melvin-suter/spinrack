@@ -1,0 +1,117 @@
+// Dark theme overrides
+$global-background: #1b273f;
+$global-muted-background: #1b273f;
+$global-primary-background: #3b82f6;
+
+$global-color: #e5e7eb;
+$global-emphasis-color: #ffffff;
+$global-muted-color: #9ca3af;
+
+$global-border: #2a2e36;
+
+$navbar-background: #111c33;
+$navbar-color: #e5e7eb;
+
+$card-background: #192e54;
+
+$offcanvas-bar-background: #11141a;
+
+// Custom
+$global-border: #30487b;
+$global-button-background: #30487b;
+$global-primary: #3e68c3;
+
+
+
+// Required order
+@import "uikit/src/scss/mixins-theme.scss";
+@import "uikit/src/scss/variables-theme.scss";
+@import "uikit/src/scss/uikit-theme.scss";
+@import "forms";
+@import "auth";
+@import "cards";
+@import "navbar";
+@import "dvd";
+@import "table";
+@import "tags";
+
+
+html,body {
+    .app-shell {
+        height: 100vh;
+        overflow: hidden;
+    }
+
+    .app-content {
+        height: 100vh;
+        overflow: auto;
+        padding-bottom: 1rem;
+    }
+}
+
+
+.row {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+}
+
+.center-wrap {
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.number-box {
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    background-color: $global-primary;
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    min-width: 5rem;
+    color: unset;
+    text-decoration: none;
+}
+
+
+#searchResult {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.movie-selector {
+    display: block;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    padding: 0.5rem;
+    color: unset;
+    text-decoration: none;
+    flex-basis: 48%;
+    flex-grow: 1;
+
+    &:hover, &:focus {
+        text-decoration: none;
+        color: unset;
+    }
+}
+
+.movie-selector p {
+  color: unset;
+}
+
+
+.poster-view {
+    text-align: center;
+    img {
+        max-height: 25rem;
+    }
+}
+
+.blueray-icon svg {
+    fill: $global-primary;
+    stroke: $global-primary;
+}

@@ -1,0 +1,64 @@
+
+.dvd-list {
+  display: flex;
+  flex-direction: row;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.dvd-list .dvd {
+    position: relative;
+    text-align: center;
+    aspect-ratio: 2 / 3;
+    width: 154px;
+    color: unset;
+}
+
+
+.dvd-list .dvd > img {
+  position: relative;
+  top: 0px;
+  left: 0px;
+  bottom: 0px;
+  right: 0px;
+  filter: brightness(50%);
+}
+
+
+.dvd-list .dvd .front {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 0.5rem;
+}
+
+
+
+
+.seasons {
+    display: flex;
+    flex-direction: row;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.seasons .season {
+    background-color: #3e6e1b;
+    width: 3.5rem;
+    height: 3.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    color: unset;
+    text-decoration: none;
+}
+
+.seasons .season.missing {
+    background-color: #c92121;
+}

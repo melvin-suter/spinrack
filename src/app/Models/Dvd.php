@@ -1,0 +1,35 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+
+class Dvd extends Model
+{
+     protected $fillable = [
+        'tmdbid',
+        'title',
+        'search_title',
+        'poster_path',
+        'backdrop_path',
+        'overview',
+        'release',
+        'amount',
+        'season',
+        'season_name',
+        'disc_type',
+        'media_type',
+        'series_min',
+        'series_max',
+        'collection_id',
+        'collection_title',
+    ];
+
+    public function tags() {
+        return $this->belongsToMany(Tag::class);
+    }
+
+    public function genres() {
+        return $this->belongsToMany(Genre::class);
+    }
+}

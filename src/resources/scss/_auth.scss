@@ -1,0 +1,14 @@
+.login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+
+    background-color: $card-background;
+    margin-top: 1rem;
+    padding: 1rem;
+    border-radius: 1rem;
+
+    .uk-alert {
+        margin: 0px;
+    }
+}
