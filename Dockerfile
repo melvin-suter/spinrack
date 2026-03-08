@@ -62,7 +62,6 @@ COPY docker/cron_1m.sh /usr/local/bin/cron_1m.sh
 
 # Copy the script used for cron here
 COPY cron_1m.sh /usr/local/bin/cron_1m.sh
-COPY cron_5m.sh /usr/local/bin/cron_5m.sh
 
 # Get it up and running
 RUN chmod +x /usr/local/bin/cron_1m.sh && \
