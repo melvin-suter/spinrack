@@ -214,7 +214,17 @@ class AppController extends Controller
     }
 
     public function import() {
-        return view('pages.dvd.import');
+        $export = [];
+        foreach(Dvd::get() as $row) {
+            array_push($export, implode(",",[
+                $row['tmdbid'],
+                $row['media_type'],
+                $row['disc_type'],
+                $row['title'],
+                $row['season'],
+            ]));
+        }
+        return view('pages.dvd.import', ['export' => implode("\n", $export)]);
     }
 
     public function runImport(Request $request)

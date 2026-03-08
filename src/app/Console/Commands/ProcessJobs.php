@@ -37,7 +37,7 @@ class ProcessJobs extends Command
             ->delete();
 
         $jobs = JobStatus::where('status', 'pending')
-            ->limit(50)
+            ->limit(25)
             ->get();
 
         foreach ($jobs as $job) {

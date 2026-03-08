@@ -27,4 +27,11 @@
         </form>
     </article>
 
+    <h1>Export</h1>
+
+    <article class="form">
+        <label>CSV</label>
+        <small>Format: tmdbid,media_type,disc_type,title,season</small>
+        <textarea rows="10">{{$export}}</textarea>
+    </article>
 @endsection
