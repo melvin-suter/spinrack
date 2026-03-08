@@ -58,9 +58,16 @@ RUN mkdir -p /data \
  && chmod -R 775 /data storage bootstrap/cache
 
 # Cron job
-RUN echo '* * * * * root cd /var/www/html && /usr/local/bin/php artisan app:process-jobs >> /var/log/cron.log 2>&1' > /etc/cron.d/laravel \
- && chmod 0644 /etc/cron.d/laravel \
- && touch /var/log/cron.log
+COPY docker/cron_1m.sh /usr/local/bin/cron_1m.sh
+
+# Copy the script used for cron here
+COPY cron_1m.sh /usr/local/bin/cron_1m.sh
+COPY cron_5m.sh /usr/local/bin/cron_5m.sh
+
+# Get it up and running
+RUN chmod +x /usr/local/bin/cron_1m.sh && \
+    echo "* * * * * sudo -u www-data /usr/local/bin/cron_1m.sh > /proc/1/fd/1 2>/proc/1/fd/1" | crontab -
+
 
 # Startup script
 COPY docker/entrypoint.sh /entrypoint.sh
