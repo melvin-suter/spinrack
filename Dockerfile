@@ -60,9 +60,6 @@ RUN mkdir -p /data \
 # Cron job
 COPY docker/cron_1m.sh /usr/local/bin/cron_1m.sh
 
-# Copy the script used for cron here
-COPY cron_1m.sh /usr/local/bin/cron_1m.sh
-
 # Get it up and running
 RUN chmod +x /usr/local/bin/cron_1m.sh && \
     echo "* * * * * sudo -u www-data /usr/local/bin/cron_1m.sh > /proc/1/fd/1 2>/proc/1/fd/1" | crontab -
