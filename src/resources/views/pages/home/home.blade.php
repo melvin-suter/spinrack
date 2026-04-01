@@ -42,6 +42,18 @@
     </article>
 
 
+    <article>
+        <h3>Random picks for you</h3>
+        <div class="dvd-list">
+            @foreach($random as $dvd)
+                @include('components.dvd-view', ['dvd' => $dvd])
+            @endforeach
+        </div>
+    </article>
+
+    
+
+
     <script>
         (() => {
             const searchInput = document.getElementById('search');

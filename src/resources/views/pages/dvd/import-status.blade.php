@@ -3,7 +3,7 @@
 @section('title', 'Import')
 
 @section('content')
-    <h2>Import</h2>
+    <h1>Import</h1>
 
 
     <article>

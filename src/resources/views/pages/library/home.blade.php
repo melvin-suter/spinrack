@@ -3,7 +3,7 @@
 @section('title', 'Library')
 
 @section('content')
-    <h2>Library</h2>
+    <h1>Library</h1>
 
     <article>
         <form action="" method="GET">

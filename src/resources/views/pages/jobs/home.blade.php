@@ -3,7 +3,7 @@
 @section('title', 'Jobs')
 
 @section('content')
-    <h2>Jobs</h2>
+    <h1>Jobs</h1>
 
     <article>
         <table class="uk-table table">

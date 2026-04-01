@@ -11,8 +11,10 @@
     position: relative;
     text-align: center;
     aspect-ratio: 2 / 3;
-    width: 154px;
     color: unset;
+    max-width: 154px;
+    min-width: 110px;
+    width: 45%;
 }
 
 
@@ -61,4 +63,32 @@
 
 .seasons .season.missing {
     background-color: #c92121;
+}
+
+
+
+
+
+// Missing Indicator
+.missing-indicator {
+    fill: red;
+    stroke: red;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    z-index: 99;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.45); /* darkness level */
+    pointer-events: none;            /* lets clicks pass through */
+}
+.missing-indicator svg {
+    width: 3rem;
+}
+.dvd {
+    position: relative;
 }

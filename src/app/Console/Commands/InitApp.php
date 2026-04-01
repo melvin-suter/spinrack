@@ -31,6 +31,7 @@ class InitApp extends Command
             User::create([
                 'username' => 'admin',
                 'password' => Hash::make('admin'),
+                'is_admin' => true,
             ]);
         }
     }

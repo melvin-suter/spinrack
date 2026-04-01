@@ -36,7 +36,11 @@ $global-primary: #3e68c3;
 @import "tags";
 
 
+
+
 html,body {
+    overflow: hidden;
+
     .app-shell {
         height: 100vh;
         overflow: hidden;
@@ -46,7 +50,13 @@ html,body {
         height: 100vh;
         overflow: auto;
         padding-bottom: 1rem;
+
     }
+
+    .uk-grid-collapse.uk-grid.uk-grid-stack {
+        overflow: hidden;
+    }
+
 }
 
 

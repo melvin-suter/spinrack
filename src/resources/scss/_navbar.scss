@@ -5,3 +5,18 @@ aside, nav, .uk-navbar {
 .app-sidebar {
     min-width: 250px;
 }
+
+
+nav.uk-hidden\@m {
+    bottom: 5px;
+    right: 5px;
+    width: 50px;
+    position: fixed;
+    opacity: 0.5;
+    border: 0px;
+}
+
+
+nav.uk-hidden\@m button {
+    border: 0px;
+}

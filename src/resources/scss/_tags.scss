@@ -9,4 +9,11 @@
     background: $global-primary;
     padding: 0.25rem 0.5rem;
     border-radius: 0.75rem;
+    color: $global-color;
+
+    &:hover,&:focus {
+        color: $global-color;
+        background: darken($global-primary, 10%);
+
+    }
 }

@@ -5,14 +5,18 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Dvd;
 use App\Models\Tag;
+use App\Models\User;
 use App\Models\JobStatus;
 use App\Models\Genre;
 use App\Jobs\FillMeta;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Auth;
 
 class AppController extends Controller
 {
    public function home() {
+        $random = Dvd::inRandomOrder()->take(6)->get();
 
         return view('pages.home.home', [
             'tvCount' => Dvd::where('media_type','=','tv')->count(),
@@ -20,6 +24,7 @@ class AppController extends Controller
             'discCount' => Dvd::count(),
             'dvdCount' => Dvd::where('disc_type','=','dvd')->count(),
             'bluerayCount' => Dvd::where('disc_type','=','blueray')->count(),
+            'random' => $random,
         ]);
     }
 
@@ -98,6 +103,7 @@ class AppController extends Controller
     }
 
     public function jobs() {
+        if(!Auth::user()->is_admin) { return redirect()->back();}
         return view('pages.jobs.home', [
             'jobs' => JobStatus::orderBy('id', 'desc')->get(),
         ]);
@@ -214,6 +220,7 @@ class AppController extends Controller
     }
 
     public function import() {
+        if(!Auth::user()->is_admin) { return redirect()->back();}
         $export = [];
         foreach(Dvd::get() as $row) {
             array_push($export, implode(",",[
@@ -229,6 +236,7 @@ class AppController extends Controller
 
     public function runImport(Request $request)
     {
+        if(!Auth::user()->is_admin) { return redirect()->back();}
         $validated = $request->validate([
             'csv' => ['required', 'string'],
         ]);
@@ -299,6 +307,147 @@ class AppController extends Controller
         $user->save();
 
         return back()->with('success', 'Profile updated.');
+    }
+
+
+
+    public function collection($id) {
+
+        $apiKey = config('app.tmdb_api_key');
+        $baseUrl = "https://api.themoviedb.org/3/collection/${id}}?api_key=${apiKey}";
+
+        $response = Http::timeout(20)
+            ->acceptJson()
+            ->get($baseUrl, [
+                'api_key' => $apiKey,
+            ])
+            ->throw();
+
+        $data = $response->json();
+
+        $dvds = Dvd::where('collection_id',$id)->orderByDesc('created_at')->get();
+
+        return view('pages.collections.home', [
+            'dvds' => $dvds,
+            'parts' => $data['parts']
+        ]);
+    }
+
+
+
+    public function genres($id) {
+        $genre = Genre::find($id);
+        $dvds = $genre->dvds()->orderByDesc('created_at')->get();
+
+        return view('pages.genres.home', [
+            'genre' => $genre,
+            'dvds' => $dvds
+        ]);
+    }
+
+    public function tags($id) {
+        $tag = Tag::find($id);
+        $dvds = $tag->dvds()->orderByDesc('created_at')->get();
+
+        return view('pages.tags.home', [
+            'tag' => $tag,
+            'dvds' => $dvds
+        ]);
+    }
+
+    public function users() {
+        if(!Auth::user()->is_admin) { return redirect()->back();}
+        return view('pages.settings.users', [
+            'users' => User::get(),
+        ]);
+    }
+
+
+
+    public function addUser(Request $request) {
+        if(!Auth::user()->is_admin) { return redirect()->back();}
+
+        $data = $request->validate([
+            'username' => ['required', 'string'],
+            'password' => ['required', 'string'],
+            'is_admin' => ['required', 'boolean'],
+        ]);
+
+        $user = User::create($data);
+
+        return redirect("/settings/users");
+    }
+
+
+    public function saveUser(Request $request,$id) {
+        if(Auth::user()->id == $id || !Auth::user()->is_admin) { return redirect()->back();}
+
+        $user = User::find($id);
+
+        $validated = $request->validate([
+            'username' => ['required', 'string', 'max:255'],
+            'password' => ['nullable'],
+            'is_admin' => ['required', 'boolean'],
+        ]);
+
+        $user->username = $validated['username'];
+        $user->is_admin = $validated['is_admin'];
+
+        if (!empty($validated['password'])) {
+            $user->password = Hash::make($validated['password']);
+        }
+
+        $user->save();
+
+        return back()->with('success', 'Profile updated.');
+    }
+
+    public function deleteUser($id) {
+        if(Auth::user()->id == $id || !Auth::user()->is_admin) { return redirect()->back();}
+        $user = User::find($id);
+        $user->delete();
+        return back()->with('success', 'User deleted.');
+    }
+
+
+    public function collections() {
+        $collections = Dvd::whereNotNull('collection_id')->get()->groupBy('collection_id')
+            ->map(function ($group) {
+                $first = $group->first();
+
+                return [
+                    'collection_id' => $first->collection_id,
+                    'collection_title' => $first->collection_title,
+                    'poster_path' => $first->poster_path,
+                ];
+            })
+            ->values()
+            ->toArray();
+
+        return view('pages.collections.list', [
+            'collections' => $collections
+        ]);
+    }
+
+
+
+    public function shows() {
+        $shows = Dvd::whereNotNull('season')->whereNotNull('season_name')->get()->groupBy('tmdbid')
+            ->map(function ($group) {
+                $first = $group->first();
+
+                return [
+                    'dvd_id' => $first->id,
+                    'title' => $first->title,
+                    'poster_path' => $first->poster_path,
+                ];
+            })
+            ->values()
+            ->toArray();
+
+        return view('pages.shows.list', [
+            'shows' => $shows
+        ]);
     }
 
 }

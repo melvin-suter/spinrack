@@ -4,7 +4,7 @@
 
 @section('content')
 
-    <h2>{{$dvd->title}}</h2>
+    <h1>{{$dvd->title}}</h1>
 
 
     <article>
@@ -22,17 +22,40 @@
             <tr><td><strong>Tags</strong></td><td>
                 <div class="tags">
                     @foreach($dvd->tags()->get() as $tag)
-                        <div class="tag">{{$tag->name}}</div>
+                        <a href="/tag/{{$tag->id}}" class="tag">{{$tag->name}}</a>
                     @endforeach
                 </div>
             </td></tr>
-            @if($dvd->collection_id)
-                <tr><td><strong>Collection</strong></td><td><a href="/collection/{{$dvd->collection_id}}">{{$dvd->collection_name}}</a></td></tr>
+            <tr><td><strong>Genres</strong></td><td>
+                <div class="genres">
+                    @foreach($dvd->genres()->get() as $genre)
+                        <a href="/genre/{{$genre->id}}" class="tag">{{$genre->name}}</a>
+                    @endforeach
+                </div>
+            </td></tr>
+            @if($dvd->collection_id != null)
+                <tr><td><strong>Collection</strong></td><td><a href="/collection/{{$dvd->collection_id}}">{{$dvd->collection_title ? $dvd->collection_title : 'Collection'}}</a></td></tr>
             @endif
             @if($dvd->media_type == "tv")
                 <tr><td><strong>Season</strong></td><td>{{$dvd->season}} - {{$dvd->season_name}}</td></tr>
             @endif
             <tr><td colspan="2">{{$dvd->overview}}</td></tr>
+            @if($dvd->media_type == "tv")
+                <tr><td colspan="2">
+                    <strong>Seasons</strong>
+                    <div class="seasons">
+                        @if($seasons->first())
+                            @for($i = $seasons->first()->series_min ; $i <= $seasons->first()->series_max ; $i++)
+                                @if($seasons->firstWhere('season', $i) )
+                                    <a href="/dvd/{{ $seasons->firstWhere('season', $i)->id }}" class="season">{{$i}}</a>
+                                @else
+                                    <a href="/check/{{$seasons->first()->media_type}}/{{ $seasons->first()->tmdbid }}?season={{$i}}" class="season missing">{{$i}}</a>
+                                @endif
+                            @endfor
+                        @endif
+                    </div>
+                </td></tr>
+            @endif
         </table>
     </article>
 

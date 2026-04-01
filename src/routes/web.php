@@ -24,22 +24,24 @@ Route::middleware(['auth'])->group(function(){
     Route::get('/settings', [AppController::class, 'settings']);
     Route::post('/settings', [AppController::class, 'settingsSave']);
 
+    Route::get('/shows', [AppController::class, 'shows']);
+
     
+    Route::get('/collections', [AppController::class, 'collections']);
+    Route::get('/collection/{id}', [AppController::class, 'collection']);
+    Route::get('/tag/{id}', [AppController::class, 'tags']);
+    Route::get('/genre/{id}', [AppController::class, 'genres']);
 
-
-    
-
-    Route::get('/search', [AppController::class, 'search']);
 
     Route::get('/settings', [AppController::class, 'settings']);
     Route::post('/settings', [AppController::class, 'settingsSave']);
 
-    Route::get('/tag/{id}', [AppController::class, 'showTag']);
+    Route::get('/settings/users', [AppController::class, 'users']);
+    Route::post('/settings/users/add', [AppController::class, 'addUser']);
+    Route::get('/settings/users/{id}/delete', [AppController::class, 'deleteUser']);
+    Route::post('/settings/users/{id}', [AppController::class, 'saveUser']);
 
-    Route::get('/collection/{id}', [AppController::class, 'collection']);
 
-
-    Route::get('/show/{id}', [AppController::class, 'show']);
     Route::get('/rnd/{id}', [AppController::class, 'rnd']);
 
 });

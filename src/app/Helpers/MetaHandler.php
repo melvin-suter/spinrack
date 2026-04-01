@@ -2,6 +2,7 @@
 
 namespace App\Helpers;
 
+use App\Models\Genre;
 use App\Models\Dvd;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Http\Client\RequestException;
@@ -155,6 +156,17 @@ class MetaHandler
                 $updated = $dvd->update([
                     'title' => $firstTitle
                 ]);
+            }
+
+            // Do genres
+            $dvd->genres()->detach();
+            foreach($data['genres'] as $genreRaw) {
+                $genre = Genre::firstOrCreate([
+                    'tmdbid' => $genreRaw['id'],
+                ],[
+                    'name' => $genreRaw['name'],
+                ]);
+                $dvd->genres()->attach($genre);
             }
 
             if (!$updated) {

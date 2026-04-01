@@ -1,4 +1,4 @@
-<ul class="uk-nav uk-nav-default" uk-nav>
+<ul class="uk-nav uk-nav-default" uk-nav style="padding-top: 1rem;">
     <li class="{{ request()->is('/') ? 'uk-active' : '' }}">
         <a href="/">Home</a>
     </li>
@@ -7,35 +7,37 @@
         <a href="/library">Library</a>
     </li>
 
-    <li class="{{ request()->is('jobs*') ? 'uk-active' : '' }}">
-        <a href="/jobs">Meta Jobs</a>
+    <li class="{{ request()->is('collections*') ? 'uk-active' : '' }}">
+        <a href="/collections">Collections</a>
     </li>
 
-    <li class="{{ request()->is('import*') ? 'uk-active' : '' }}">
-        <a href="/import">Import</a>
+    <li class="{{ request()->is('shows*') ? 'uk-active' : '' }}">
+        <a href="/shows">TV Shows</a>
     </li>
 
-    <!--
-
-    <li class="uk-parent {{ request()->is('projects*') ? 'uk-open uk-active' : '' }}">
+    <li class="uk-parent {{ request()->is('settings*') ? 'uk-open uk-active' : '' }}">
         <a href="#">
-            Projects
+            Settings
             <span uk-nav-parent-icon></span>
         </a>
 
         <ul class="uk-nav-sub">
-            <li class="{{ request()->is('projects') ? 'uk-active' : '' }}">
-                <a href="/projects">All Projects</a>
+            <li class="{{ request()->is('settings') ? 'uk-active' : '' }}">
+                <a href="/settings">Profile</a>
             </li>
+            @if(Auth::user()->is_admin)
+                <li class="{{ request()->is('jobs*') ? 'uk-active' : '' }}">
+                    <a href="/jobs">Meta Jobs</a>
+                </li>
 
-            <li class="{{ request()->is('projects/create') ? 'uk-active' : '' }}">
-                <a href="/projects/create">New Project</a>
-            </li>
+                <li class="{{ request()->is('import*') ? 'uk-active' : '' }}">
+                    <a href="/import">Import</a>
+                </li>
+                <li class="{{ request()->is('projects/create') ? 'uk-active' : '' }}">
+                    <a href="/settings/users">User Management</a>
+                </li>
+            @endif
         </ul>
-    </li>-->
-
-    <li class="{{ request()->is('settings*') ? 'uk-active' : '' }}">
-        <a href="/settings">Settings</a>
     </li>
 
     <li>

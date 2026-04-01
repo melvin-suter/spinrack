@@ -3,7 +3,7 @@
 @section('title', $dvd->title)
 
 @section('content')
-    <h2>Edit - {{$dvd->title}}</h2>
+    <h1>Edit - {{$dvd->title}}</h1>
 
 
     <article>
@@ -65,9 +65,7 @@
 
             <label>Tags</label>
             <input type="hidden" id="tags" name="tags"/>
-            <div id="tags-view" class="tags">
-                
-            </div>
+            <div id="tags-view" class="tags"></div>
 
             <input
                 type="text"
